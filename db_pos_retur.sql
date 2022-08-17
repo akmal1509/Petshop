@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 15, 2022 at 06:39 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 5.6.40
+-- Host: localhost:3306
+-- Generation Time: Aug 17, 2022 at 12:55 PM
+-- Server version: 5.7.33
+-- PHP Version: 7.4.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -58,20 +57,22 @@ CREATE TABLE `barang` (
   `harga_toko` int(11) DEFAULT NULL,
   `harga_sales` int(11) DEFAULT NULL,
   `stok` int(11) DEFAULT NULL,
-  `is_active` int(11) DEFAULT NULL
+  `is_active` int(11) DEFAULT NULL,
+  `keterangan` tinytext
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `barang`
 --
 
-INSERT INTO `barang` (`id_barang`, `kode_barang`, `gambar`, `barcode`, `nama_barang`, `id_kategori`, `id_satuan`, `id_supplier`, `harga_beli`, `harga_jual`, `harga_pelanggan`, `harga_toko`, `harga_sales`, `stok`, `is_active`) VALUES
-(1, 'BRG-00001', 'Capture1.JPG', 'MKN01', 'Whiskas Cat', 1, 1, 1, '7000', '10000', 8000, 10000, 0, 19, 1),
-(2, 'BRG-00002', 'Capture.PNG', 'BRG-00002', 'Whiskas Kaleng', 1, 3, 2, '20000', '25000', 22000, 25000, 0, 0, 1),
-(3, 'BRG-00003', 'Premium_Cat_Litter___Pasir_Kucing_Gumpal_Wangi___5_5_Liter_B.jpg', 'PSR-001', 'Premium Cat Litter', 4, 5, 5, '30000', '35000', 32000, 35000, 0, 0, 1),
-(4, 'BRG-00004', 'rug-1603700694328-0.jpeg', 'PSR-002', 'Top Cat Litter', 4, 5, 4, '30000', '37000', 35000, 37000, 0, 0, 1),
-(5, 'BRG-00005', 'bola.PNG', 'MN-001', 'Cat Toys Bola Jeruji Tikus Dog Toys', 3, 1, 3, '10000', '12000', 11000, 12000, 0, 0, 1),
-(6, 'BRG-00006', 'arc.PNG', 'MN-002', 'ARTHACAT Cat Tree KOTTUR', 3, 1, 1, '170000', '200000', 185000, 200000, 0, 0, 1);
+INSERT INTO `barang` (`id_barang`, `kode_barang`, `gambar`, `barcode`, `nama_barang`, `id_kategori`, `id_satuan`, `id_supplier`, `harga_beli`, `harga_jual`, `harga_pelanggan`, `harga_toko`, `harga_sales`, `stok`, `is_active`, `keterangan`) VALUES
+(1, 'BRG-00001', 'Capture1.JPG', 'MKN01', 'Whiskas Cat', 1, 1, 1, '7000', '10000', 8000, 10000, 0, 10, 1, NULL),
+(2, 'BRG-00002', 'Capture.PNG', 'BRG-00002', 'Whiskas Kaleng', 1, 3, 2, '20000', '25000', 22000, 25000, 0, 0, 1, NULL),
+(3, 'BRG-00003', 'Premium_Cat_Litter___Pasir_Kucing_Gumpal_Wangi___5_5_Liter_B.jpg', 'PSR-001', 'Premium Cat Litter', 4, 5, 5, '30000', '35000', 32000, 35000, 0, 0, 1, NULL),
+(4, 'BRG-00004', 'rug-1603700694328-0.jpeg', 'PSR-002', 'Top Cat Litter', 4, 5, 4, '30000', '37000', 35000, 37000, 0, 0, 1, NULL),
+(5, 'BRG-00005', 'bola.PNG', 'MN-001', 'Cat Toys Bola Jeruji Tikus Dog Toys', 3, 1, 3, '10000', '12000', 11000, 12000, 0, 0, 1, NULL),
+(6, 'BRG-00006', 'arc.PNG', 'MN-002', 'ARTHACAT Cat Tree KOTTUR', 3, 1, 1, '170000', '200000', 185000, 200000, 0, 0, 1, NULL),
+(7, 'BRG-00007', 'default.png', 'sdf', 'sdf', 1, 1, 1, '323', '234', 234, 234, 0, 0, 0, 'aaa');
 
 -- --------------------------------------------------------
 
@@ -98,6 +99,24 @@ INSERT INTO `customer` (`id_cs`, `kode_cs`, `nama_cs`, `jenis_kelamin`, `telp`, 
 (1, 'CS-000001', 'Umum', 'Laki-Laki', '000000', 'umum@gmail.com', 'Makassar', 'Umum'),
 (2, 'CS-000002', 'Testing', 'Laki-Laki', '28936472', 'test@gmail.com', 'as', 'Umum'),
 (3, 'CS-000003', 'Pratama', 'Laki-Laki', '082194131328', 'pratama@gmail.com', 'jln kemakmuran no. 25 Depok II tengah', 'Pelanggan');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `denda`
+--
+
+CREATE TABLE `denda` (
+  `id` bigint(20) NOT NULL,
+  `denda` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `denda`
+--
+
+INSERT INTO `denda` (`id`, `denda`) VALUES
+(1, 20000);
 
 -- --------------------------------------------------------
 
@@ -136,8 +155,32 @@ CREATE TABLE `detil_pembelian` (
 --
 
 INSERT INTO `detil_pembelian` (`id_detil_beli`, `id_beli`, `id_barang`, `kode_detil_beli`, `hrg_beli`, `hrg_jual`, `qty_beli`, `subtotal`, `is_retur`) VALUES
-(1, 1, 1, 'DB-0000001', 7000, 10000, 20, '140000', 0),
+(1, 1, 1, 'DB-0000001', 7000, 10000, 10, '70000', 0),
 (2, NULL, 1, 'DB-0000002', 7000, 10000, 10, '70000', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `detil_pemesanan`
+--
+
+CREATE TABLE `detil_pemesanan` (
+  `id` int(11) NOT NULL,
+  `id_pemesanan` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `id_supplier` int(11) NOT NULL,
+  `id_satuan` int(11) NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `tanggal` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `detil_pemesanan`
+--
+
+INSERT INTO `detil_pemesanan` (`id`, `id_pemesanan`, `id_barang`, `id_supplier`, `id_satuan`, `jumlah`, `tanggal`) VALUES
+(2, 3, 1, 1, 1, 2, '2022-06-23'),
+(4, 3, 1, 2, 2, 5, '2022-06-29');
 
 -- --------------------------------------------------------
 
@@ -154,8 +197,21 @@ CREATE TABLE `detil_penginapan` (
   `tanggal_akhir` date NOT NULL,
   `harga` int(11) NOT NULL,
   `diskon` int(11) NOT NULL,
-  `subtotal` int(11) NOT NULL
+  `subtotal` int(11) NOT NULL,
+  `denda` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `detil_penginapan`
+--
+
+INSERT INTO `detil_penginapan` (`id_detil_penginapan`, `id_penginapan`, `hewan`, `nama_servis`, `tanggal_awal`, `tanggal_akhir`, `harga`, `diskon`, `subtotal`, `denda`) VALUES
+(3, 3, 'kucing', 'Penginapan Hewan', '2022-06-16', '2022-06-17', 50000, 0, 50000, 20000),
+(4, 4, 'kucing', 'Penginapan Hewan', '2022-08-16', '2022-08-18', 50000, 0, 100000, 20000),
+(5, 5, 'kucing', 'Penginapan Hewan', '2022-08-16', '2022-08-18', 50000, 0, 100000, 20000),
+(9, 6, 'kucing', 'Penginapan Hewan', '2022-08-16', '2022-08-18', 50000, 0, 100000, 20000),
+(14, 7, 'kucing', 'Penginapan Hewan', '2022-08-16', '2022-08-18', 50000, 0, 100000, 20000),
+(15, 8, 'kucing', 'Penginapan Hewan', '2022-08-16', '2022-08-18', 50000, 0, 100000, 20000);
 
 -- --------------------------------------------------------
 
@@ -182,14 +238,22 @@ CREATE TABLE `detil_penjualan` (
 --
 
 INSERT INTO `detil_penjualan` (`id_detil_jual`, `id_jual`, `id_barang`, `id_servis`, `id_karyawan`, `kode_detil_jual`, `diskon`, `harga_item`, `qty_jual`, `subtotal`, `is_retur`) VALUES
-(1, 1, 1, NULL, NULL, 'DJ-0000001', 0, 10000, 10, '100000', 0),
+(1, 1, 1, NULL, NULL, 'DJ-0000001', 0, 10000, 9, '90000', 0),
 (3, 2, NULL, 2, 0, 'DJ-0000003', 0, 50000, 1, '50000', 0),
 (5, 2, NULL, 2, 0, 'DJ-0000005', 0, 50000, 1, '50000', 0),
 (6, 3, NULL, 1, 1, 'DJ-0000006', 0, 30000, 1, '30000', 0),
 (7, 4, NULL, 1, 0, 'DJ-0000007', 0, 30000, 1, '30000', 0),
 (9, 4, NULL, 1, 1, 'DJ-0000008', 0, 30000, 1, '30000', 0),
 (10, 5, NULL, 2, 1, 'DJ-0000009', 0, 50000, 1, '50000', 0),
-(11, 6, 1, NULL, NULL, 'DJ-0000010', 0, 10000, 1, '10000', 0);
+(11, 6, 1, NULL, NULL, 'DJ-0000010', 0, 10000, 1, '10000', 0),
+(13, 7, 1, NULL, NULL, 'DJ-0000011', 0, 10000, 1, '10000', 0),
+(38, 8, NULL, 3, 2, 'DJ-0000012', 0, 55000, 1, '55000', 0),
+(39, 9, NULL, 1, 1, 'DJ-0000013', 0, 30000, 1, '30000', 0),
+(40, 10, NULL, 1, 1, 'DJ-0000014', 0, 30000, 1, '30000', 0),
+(41, 11, NULL, 1, 1, 'DJ-0000015', 0, 30000, 1, '30000', 0),
+(42, 12, NULL, 1, 1, 'DJ-0000016', 0, 30000, 1, '30000', 0),
+(43, 13, NULL, 1, 1, 'DJ-0000017', 0, 30000, 1, '30000', 0),
+(44, 14, NULL, 1, 1, 'DJ-0000018', 0, 30000, 1, '30000', 0);
 
 -- --------------------------------------------------------
 
@@ -224,6 +288,13 @@ CREATE TABLE `detil_retur_pembelian` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `detil_retur_pembelian`
+--
+
+INSERT INTO `detil_retur_pembelian` (`id_detil_retur_pembelian`, `id_retur_pembelian`, `id_barang`, `harga`, `jumlah`, `subtotal`, `mutasi`, `kondisi`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 7000, 10, 70000, 'out', 'rusak', '2022-08-16 15:25:12', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -242,6 +313,13 @@ CREATE TABLE `detil_retur_penjualan` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `detil_retur_penjualan`
+--
+
+INSERT INTO `detil_retur_penjualan` (`id_detil_retur_penjualan`, `id_retur_penjualan`, `id_barang`, `harga`, `jumlah`, `subtotal`, `mutasi`, `kondisi`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 10000, 1, 10000, 'in', 'baik', '2022-06-01 07:29:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -342,7 +420,25 @@ INSERT INTO `kas` (`id_kas`, `id_user`, `kode_kas`, `tanggal`, `jenis`, `sumber`
 (3, 1, 'KS-0000003', '2022-03-05 18:35:18', 'Pemasukan', 'transaksi', '30000', 'Penjualan'),
 (4, 3, 'KS-0000004', '2022-03-13 10:21:34', 'Pemasukan', 'transaksi', '60000', 'Penjualan'),
 (5, 3, 'KS-0000005', '2022-03-13 10:23:42', 'Pemasukan', 'transaksi', '50000', 'Penjualan'),
-(6, 3, 'KS-0000006', '2022-03-13 10:24:09', 'Pemasukan', 'transaksi', '10000', 'Penjualan');
+(6, 3, 'KS-0000006', '2022-03-13 10:24:09', 'Pemasukan', 'transaksi', '10000', 'Penjualan'),
+(7, 1, 'KS-0000007', '2022-06-01 09:29:13', 'Pengeluaran', 'transaksi', '10000', 'Retur Penjualan dari kode invoice #POS20220129233253'),
+(8, 1, 'KS-0000008', '2022-06-01 15:53:28', 'Pemasukan', 'transaksi', '10000', 'Penjualan'),
+(9, 3, 'KS-0000009', '2022-06-14 17:43:54', 'Pemasukan', 'transaksi', '100000', 'Penginapan'),
+(10, 3, 'KS-0000010', '2022-06-16 04:22:55', 'Pemasukan', 'transaksi', '100000', 'Penginapan'),
+(11, 3, 'KS-0000011', '2022-06-16 04:26:07', 'Pemasukan', 'transaksi', '50000', 'Penginapan'),
+(12, 3, 'KS-0000012', '2022-06-17 09:46:59', 'Pemasukan', 'transaksi', '55000', 'Penjualan'),
+(13, 3, 'KS-0000013', '2022-08-16 06:14:49', 'Pemasukan', 'transaksi', '100000', 'Penginapan'),
+(14, 3, 'KS-0000014', '2022-08-16 13:34:56', 'Pemasukan', 'transaksi', '30000', 'Penjualan'),
+(15, 3, 'KS-0000015', '2022-08-16 13:36:11', 'Pemasukan', 'transaksi', '30000', 'Penjualan'),
+(16, 3, 'KS-0000016', '2022-08-16 13:47:19', 'Pemasukan', 'transaksi', '30000', 'Penjualan'),
+(17, 3, 'KS-0000017', '2022-08-16 10:32:29', 'Pemasukan', 'transaksi', '100000', 'Penginapan'),
+(18, 3, 'KS-0000018', '2022-08-16 10:46:49', 'Pemasukan', 'transaksi', '100000', 'Penginapan'),
+(19, 3, 'KS-0000019', '2022-08-16 10:50:33', 'Pemasukan', 'transaksi', '100000', 'Penginapan'),
+(20, 3, 'KS-0000020', '2022-08-16 18:08:18', 'Pemasukan', 'transaksi', '30000', 'Penjualan'),
+(21, 13, 'KS-0000021', '2022-08-16 15:25:12', 'Pemasukan', 'transaksi', '70000', 'Retur Pembelian dari kode #PB-0000001'),
+(22, 3, 'KS-0000022', '2022-08-16 15:34:34', 'Pemasukan', 'transaksi', '100000', 'Penginapan'),
+(23, 3, 'KS-0000023', '2022-08-17 15:17:02', 'Pemasukan', 'transaksi', '30000', 'Penjualan'),
+(24, 3, 'KS-0000024', '2022-08-17 15:23:39', 'Pemasukan', 'transaksi', '30000', 'Penjualan');
 
 -- --------------------------------------------------------
 
@@ -387,7 +483,14 @@ CREATE TABLE `komisi` (
 INSERT INTO `komisi` (`id_komisi`, `id_karyawan`, `id_detil_jual`, `komisi`, `keterangan`, `tanggal`) VALUES
 (1, 1, 6, 5000, 'Komisi Servis', '2022-03-04 16:00:00'),
 (4, 1, 9, 5000, 'Komisi Servis', '2022-03-12 17:00:00'),
-(5, 1, 10, 5000, 'Komisi Servis', '2022-03-12 17:00:00');
+(5, 1, 10, 5000, 'Komisi Servis', '2022-03-12 17:00:00'),
+(19, 2, 38, 5000, 'Komisi Servis', '2022-06-16 17:00:00'),
+(20, 1, 39, 5000, 'Komisi Servis', '2022-08-15 17:00:00'),
+(21, 1, 40, 5000, 'Komisi Servis', '2022-08-15 17:00:00'),
+(22, 1, 41, 5000, 'Komisi Servis', '2022-08-15 17:00:00'),
+(23, 1, 42, 5000, 'Komisi Servis', '2022-08-15 17:00:00'),
+(24, 1, 43, 5000, 'Komisi Servis', '2022-08-16 17:00:00'),
+(25, 1, 44, 5000, 'Komisi Servis', '2022-08-16 17:00:00');
 
 -- --------------------------------------------------------
 
@@ -438,6 +541,27 @@ INSERT INTO `pembelian` (`id_beli`, `id_supplier`, `id_user`, `kode_beli`, `tgl_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pemesanan`
+--
+
+CREATE TABLE `pemesanan` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `nama_pemesanan` varchar(100) NOT NULL,
+  `status` enum('pending','acc','reject','submit') DEFAULT NULL,
+  `tanggal` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pemesanan`
+--
+
+INSERT INTO `pemesanan` (`id`, `id_user`, `nama_pemesanan`, `status`, `tanggal`) VALUES
+(3, 13, 'bb', 'acc', '2022-06-23');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `penggajian`
 --
 
@@ -469,9 +593,25 @@ CREATE TABLE `penginapan` (
   `kembali` int(11) NOT NULL,
   `konsumen` varchar(100) NOT NULL,
   `telp_konsumen` varchar(12) NOT NULL,
-  `alamat_konsumen` varchar(200) NOT NULL,
-  `tanggal` date NOT NULL
+  `alamat_konsumen` varchar(200) DEFAULT NULL,
+  `status_makanan` varchar(255) NOT NULL,
+  `deskripsi` varchar(255) DEFAULT NULL,
+  `status_ambil` varchar(255) NOT NULL DEFAULT 'belum diambil',
+  `tanggal` date NOT NULL,
+  `denda` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `penginapan`
+--
+
+INSERT INTO `penginapan` (`id_penginapan`, `id_user`, `antar_jemput`, `biaya_antar_jemput`, `method`, `bayar`, `kembali`, `konsumen`, `telp_konsumen`, `alamat_konsumen`, `status_makanan`, `deskripsi`, `status_ambil`, `tanggal`, `denda`) VALUES
+(3, 3, 0, 0, 'cash', 50000, 0, 'Dimas', '234234234', '', '', '', '', '2022-06-16', NULL),
+(4, 3, 0, 20000, 'cash', 200000, 100000, 'saya', '081290560851', 'blablalba', '', '', '', '2022-08-16', NULL),
+(5, 3, 0, 20000, 'cash', 200000, 100000, 'akmal', '081212', 'asdasdasd', '', '', '', '2022-08-16', NULL),
+(6, 3, 0, 200, 'cash', 200000, 100000, 'abc', '011212', 'asdasd', '', 'asdasda', '', '2022-08-16', NULL),
+(7, 3, 0, 2000, 'cash', 600000, 500000, 'asdas', '0210210', 'asdasd', 'customer', 'asdasdas', '', '2022-08-16', NULL),
+(8, 3, 0, 1231231, 'cash', 200000, 100000, 'asdasd', '1231231', 'asdasd', 'customer', 'asdasdasd', 'sudah diambil', '2022-08-16', NULL);
 
 -- --------------------------------------------------------
 
@@ -486,12 +626,14 @@ CREATE TABLE `penjualan` (
   `kode_jual` varchar(20) DEFAULT NULL,
   `invoice` varchar(50) DEFAULT NULL,
   `method` varchar(30) DEFAULT NULL,
+  `nomor_kartu` varchar(20) DEFAULT NULL,
   `bayar` int(11) DEFAULT NULL,
   `kembali` int(11) DEFAULT NULL,
   `ppn` int(11) DEFAULT NULL,
   `tgl` datetime DEFAULT NULL,
   `hp` varchar(12) DEFAULT NULL,
   `type` enum('sales','grooming') NOT NULL DEFAULT 'sales',
+  `deskripsi` varchar(255) DEFAULT NULL,
   `is_active` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -499,13 +641,21 @@ CREATE TABLE `penjualan` (
 -- Dumping data for table `penjualan`
 --
 
-INSERT INTO `penjualan` (`id_jual`, `id_user`, `id_cs`, `kode_jual`, `invoice`, `method`, `bayar`, `kembali`, `ppn`, `tgl`, `hp`, `type`, `is_active`) VALUES
-(1, 3, 1, 'KJ-0000001', 'POS20220129233253', 'Cash', 100000, 0, 0, '2022-01-29 23:32:53', NULL, 'sales', 1),
-(2, 3, 1, 'KJ-0000002', 'POS20220304144911', 'Cash', 100000, 0, 0, '2022-03-04 14:49:11', NULL, 'sales', 1),
-(3, 1, 1, 'KJ-0000003', 'POS20220305183518', 'Cash', 30000, 0, 0, '2022-03-05 18:35:18', NULL, 'sales', 1),
-(4, 3, 1, 'KJ-0000004', 'POS20220313102134', 'Cash', 60000, 0, 0, '2022-03-13 10:21:34', '23423', 'grooming', 1),
-(5, 3, 2, 'KJ-0000005', 'POS20220313102342', 'Cash', 50000, 0, 0, '2022-03-13 10:23:42', '28936472', 'grooming', 1),
-(6, 3, 1, 'KJ-0000006', 'POS20220313102409', 'Cash', 10000, 0, 0, '2022-03-13 10:24:09', NULL, 'sales', 1);
+INSERT INTO `penjualan` (`id_jual`, `id_user`, `id_cs`, `kode_jual`, `invoice`, `method`, `nomor_kartu`, `bayar`, `kembali`, `ppn`, `tgl`, `hp`, `type`, `deskripsi`, `is_active`) VALUES
+(1, 3, 1, 'KJ-0000001', 'POS20220129233253', 'Cash', '', 100000, 0, 0, '2022-01-29 23:32:53', NULL, 'sales', '', 1),
+(2, 3, 1, 'KJ-0000002', 'POS20220304144911', 'Cash', '', 100000, 0, 0, '2022-03-04 14:49:11', NULL, 'sales', '', 1),
+(3, 1, 1, 'KJ-0000003', 'POS20220305183518', 'Cash', '', 30000, 0, 0, '2022-03-05 18:35:18', NULL, 'sales', '', 1),
+(4, 3, 1, 'KJ-0000004', 'POS20220313102134', 'Cash', '', 60000, 0, 0, '2022-03-13 10:21:34', '23423', 'grooming', '', 1),
+(5, 3, 2, 'KJ-0000005', 'POS20220313102342', 'Cash', '', 50000, 0, 0, '2022-03-13 10:23:42', '28936472', 'grooming', '', 1),
+(6, 3, 1, 'KJ-0000006', 'POS20220313102409', 'Cash', '', 10000, 0, 0, '2022-03-13 10:24:09', NULL, 'sales', '', 1),
+(7, 1, 1, 'KJ-0000007', 'POS20220601155328', 'Debit', '000129311', 10000, 0, 0, '2022-06-01 15:53:28', NULL, 'sales', '', 1),
+(8, 3, 1, 'KJ-0000008', 'POS20220617094659', 'Debit', '234', 55000, 0, 0, '2022-06-17 09:46:59', '', 'grooming', '', 1),
+(9, 3, 2, 'KJ-0000009', 'POS20220816133456', 'Cash', '', 60000, 30000, 0, '2022-08-16 13:34:56', '123123123', 'grooming', '', 1),
+(10, 3, 2, 'KJ-0000010', 'POS20220816133611', 'Cash', '', 60000, 30000, 0, '2022-08-16 13:36:11', '28936472', 'grooming', '', 1),
+(11, 3, 1, 'KJ-0000011', 'POS20220816134719', 'Cash', '', 60000, 30000, 0, '2022-08-16 13:47:19', '0808121212', 'grooming', '', 1),
+(12, 3, 2, 'KJ-0000012', 'POS20220816180818', 'Cash', '', 800000, 770000, 0, '2022-08-16 18:08:18', '28936472', 'grooming', '', 1),
+(13, 3, 1, 'KJ-0000013', 'POS20220817151702', 'Cash', '', 700000, 670000, 0, '2022-08-17 15:17:02', '081290565656', 'grooming', NULL, 1),
+(14, 3, 1, 'KJ-0000014', 'POS20220817152339', 'Cash', '', 202020, 172020, 0, '2022-08-17 15:23:39', 'asdasd', 'grooming', 'asdasda', 1);
 
 -- --------------------------------------------------------
 
@@ -565,6 +715,13 @@ CREATE TABLE `retur_pembelian` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `retur_pembelian`
+--
+
+INSERT INTO `retur_pembelian` (`id_retur_pembelian`, `nomor`, `id_user`, `id_pembelian`, `catatan`, `created_at`, `updated_at`) VALUES
+(1, 'RTRP16082022152512', 13, 1, '-', '2022-08-16 15:25:12', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -580,6 +737,13 @@ CREATE TABLE `retur_penjualan` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `retur_penjualan`
+--
+
+INSERT INTO `retur_penjualan` (`id_retur_penjualan`, `nomor`, `id_user`, `id_penjualan`, `catatan`, `created_at`, `updated_at`) VALUES
+(1, 'RTRJ01062022092913', 1, 1, '-', '2022-06-01 07:29:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -644,6 +808,13 @@ CREATE TABLE `stok` (
   `keterangan` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `stok`
+--
+
+INSERT INTO `stok` (`id_stok`, `id_barang`, `jml`, `nilai`, `tanggal`, `jenis`, `keterangan`) VALUES
+(1, 1, 1, 7000, '2022-06-01 09:35:50', 'Stok Masuk', '');
+
 -- --------------------------------------------------------
 
 --
@@ -660,6 +831,13 @@ CREATE TABLE `stok_opname` (
   `keterangan` varchar(250) DEFAULT NULL,
   `tanggal` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `stok_opname`
+--
+
+INSERT INTO `stok_opname` (`id_stok_opname`, `id_barang`, `stok`, `stok_nyata`, `selisih`, `nilai`, `keterangan`, `tanggal`) VALUES
+(1, 2, '0', '1', '1', '20000', '', '2022-06-01 09:33:46');
 
 -- --------------------------------------------------------
 
@@ -727,54 +905,35 @@ INSERT INTO `user` (`id_user`, `username`, `nama_lengkap`, `password`, `tipe`, `
 --
 
 CREATE TABLE `user_log` (
-  `id_log` bigint(20) NOT NULL,
-  `id_user` int(11) DEFAULT NULL,
-  `login` datetime DEFAULT NULL,
-  `logout` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_log` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `login` datetime NOT NULL,
+  `logout` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_log`
 --
 
 INSERT INTO `user_log` (`id_log`, `id_user`, `login`, `logout`) VALUES
-(1, 14, '2022-01-29 11:48:36', '2022-01-29 05:49:00'),
-(2, 13, '2022-01-29 11:49:07', '2022-01-29 05:50:40'),
-(3, 13, '2022-01-29 11:50:44', '2022-01-29 05:59:13'),
-(4, 1, '2022-01-29 12:03:33', '2022-01-29 06:04:57'),
-(5, 3, '2022-01-29 12:05:02', '2022-01-29 06:08:07'),
-(6, 14, '2022-01-29 12:08:11', '2022-01-29 17:10:52'),
-(7, 1, '2022-01-29 22:58:50', '2022-01-29 17:10:52'),
-(8, 14, '2022-01-29 23:11:09', '2022-01-29 17:25:13'),
-(9, 3, '2022-01-29 23:25:17', '2022-01-29 17:25:34'),
-(10, 13, '2022-01-29 23:25:40', '2022-01-29 17:30:32'),
-(11, 14, '2022-01-29 23:30:37', '2022-01-29 17:32:01'),
-(12, 3, '2022-01-29 23:32:04', '2022-02-21 17:00:52'),
-(13, 14, '2022-02-14 17:56:33', '2022-02-21 17:00:52'),
-(14, 3, '2022-02-21 23:00:08', '2022-02-21 17:00:52'),
-(15, 13, '2022-02-21 23:01:00', '2022-02-21 17:22:01'),
-(16, 3, '2022-02-21 23:22:05', '2022-02-21 17:32:18'),
-(17, 13, '2022-02-21 23:32:23', '2022-02-22 02:02:51'),
-(18, 3, '2022-02-22 08:01:24', '2022-02-22 02:02:51'),
-(19, 13, '2022-02-22 08:02:58', '2022-02-22 02:07:07'),
-(20, 14, '2022-02-22 08:07:15', '2022-03-02 09:03:03'),
-(21, 1, '2022-03-02 15:02:17', '2022-03-02 09:03:03'),
-(22, 3, '2022-03-02 16:25:05', '2022-03-02 10:26:22'),
-(23, 13, '2022-03-02 16:26:28', '2022-03-02 10:28:22'),
-(24, 3, '2022-03-02 16:28:26', '2022-03-02 10:29:37'),
-(25, 14, '2022-03-02 16:29:42', '2022-03-05 12:39:17'),
-(26, 3, '2022-03-04 14:17:59', '2022-03-05 12:39:17'),
-(27, 1, '2022-03-05 18:10:54', '2022-03-05 12:39:17'),
-(28, 3, '2022-03-05 18:39:20', '2022-03-11 15:50:18'),
-(29, 13, '2022-03-08 23:44:15', '2022-03-11 15:50:18'),
-(30, 1, '2022-03-11 21:40:33', '2022-03-11 15:50:18'),
-(31, 3, '2022-03-11 21:50:21', '2022-03-13 10:13:44'),
-(32, 3, '2022-03-13 09:54:27', '2022-03-13 10:13:44'),
-(33, 3, '2022-03-13 12:59:06', '2022-03-13 10:13:44'),
-(34, 3, '2022-03-13 16:12:31', '2022-03-13 10:13:44'),
-(35, 12, '2022-03-13 16:13:51', '2022-03-14 17:51:52'),
-(36, 1, '2022-03-14 23:17:44', '2022-03-14 17:51:52'),
-(37, 3, '2022-03-14 23:51:56', '2022-03-14 17:52:22');
+(1, 13, '2022-06-23 21:53:04', '2022-06-23 19:15:11'),
+(2, 12, '2022-06-24 00:15:17', '2022-06-23 19:21:43'),
+(3, 13, '2022-06-24 00:21:47', '2022-06-23 19:22:07'),
+(4, 12, '2022-06-24 00:22:13', '2022-06-23 19:29:50'),
+(5, 13, '2022-06-24 00:29:54', '2022-06-23 19:44:41'),
+(6, 12, '2022-06-24 00:44:44', '2022-08-14 08:51:00'),
+(7, 1, '2022-08-14 15:49:24', '2022-08-14 08:51:00'),
+(8, 3, '2022-08-14 15:51:12', '2022-08-14 08:52:01'),
+(9, 13, '2022-08-14 15:52:08', '2022-08-14 09:00:13'),
+(10, 3, '2022-08-14 16:00:21', '2022-08-16 15:35:07'),
+(11, 3, '2022-08-16 13:12:19', '2022-08-16 15:35:07'),
+(12, 3, '2022-08-16 17:19:36', '2022-08-16 15:35:07'),
+(13, 13, '2022-08-16 18:11:15', '2022-08-16 15:35:07'),
+(14, 3, '2022-08-16 22:21:47', '2022-08-16 15:35:07'),
+(15, 13, '2022-08-16 22:21:52', '2022-08-16 15:35:07'),
+(16, 1, '2022-08-16 22:35:14', '0000-00-00 00:00:00'),
+(17, 3, '2022-08-17 14:54:44', '0000-00-00 00:00:00'),
+(18, 13, '2022-08-17 15:25:04', '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
@@ -802,6 +961,12 @@ ALTER TABLE `customer`
   ADD PRIMARY KEY (`id_cs`);
 
 --
+-- Indexes for table `denda`
+--
+ALTER TABLE `denda`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `detil_hutang`
 --
 ALTER TABLE `detil_hutang`
@@ -814,6 +979,16 @@ ALTER TABLE `detil_pembelian`
   ADD PRIMARY KEY (`id_detil_beli`),
   ADD KEY `FK_BARANG_DETIL_PEMBELIAN` (`id_barang`),
   ADD KEY `FK_PEMBELIAN_DETIL` (`id_beli`);
+
+--
+-- Indexes for table `detil_pemesanan`
+--
+ALTER TABLE `detil_pemesanan`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_barang` (`id_barang`),
+  ADD KEY `id_pemesanan` (`id_pemesanan`),
+  ADD KEY `id_satuan` (`id_satuan`),
+  ADD KEY `id_supplier` (`id_supplier`);
 
 --
 -- Indexes for table `detil_penginapan`
@@ -908,6 +1083,13 @@ ALTER TABLE `pembelian`
   ADD KEY `FK_TRANSAKSI_PEMBELIAN` (`id_supplier`);
 
 --
+-- Indexes for table `pemesanan`
+--
+ALTER TABLE `pemesanan`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`);
+
+--
 -- Indexes for table `penggajian`
 --
 ALTER TABLE `penggajian`
@@ -999,7 +1181,7 @@ ALTER TABLE `user`
 --
 ALTER TABLE `user_log`
   ADD PRIMARY KEY (`id_log`),
-  ADD KEY `ID_USER` (`id_user`);
+  ADD KEY `id_user` (`id_user`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1015,13 +1197,19 @@ ALTER TABLE `bank`
 -- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
   MODIFY `id_cs` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `denda`
+--
+ALTER TABLE `denda`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `detil_hutang`
@@ -1036,16 +1224,22 @@ ALTER TABLE `detil_pembelian`
   MODIFY `id_detil_beli` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `detil_pemesanan`
+--
+ALTER TABLE `detil_pemesanan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `detil_penginapan`
 --
 ALTER TABLE `detil_penginapan`
-  MODIFY `id_detil_penginapan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_detil_penginapan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `detil_penjualan`
 --
 ALTER TABLE `detil_penjualan`
-  MODIFY `id_detil_jual` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_detil_jual` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `detil_piutang`
@@ -1057,13 +1251,13 @@ ALTER TABLE `detil_piutang`
 -- AUTO_INCREMENT for table `detil_retur_pembelian`
 --
 ALTER TABLE `detil_retur_pembelian`
-  MODIFY `id_detil_retur_pembelian` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_detil_retur_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `detil_retur_penjualan`
 --
 ALTER TABLE `detil_retur_penjualan`
-  MODIFY `id_detil_retur_penjualan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_detil_retur_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `hutang`
@@ -1087,7 +1281,7 @@ ALTER TABLE `karyawan`
 -- AUTO_INCREMENT for table `kas`
 --
 ALTER TABLE `kas`
-  MODIFY `id_kas` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_kas` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `kategori`
@@ -1099,7 +1293,7 @@ ALTER TABLE `kategori`
 -- AUTO_INCREMENT for table `komisi`
 --
 ALTER TABLE `komisi`
-  MODIFY `id_komisi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_komisi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `pajak_ppn`
@@ -1114,6 +1308,12 @@ ALTER TABLE `pembelian`
   MODIFY `id_beli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `pemesanan`
+--
+ALTER TABLE `pemesanan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `penggajian`
 --
 ALTER TABLE `penggajian`
@@ -1123,13 +1323,13 @@ ALTER TABLE `penggajian`
 -- AUTO_INCREMENT for table `penginapan`
 --
 ALTER TABLE `penginapan`
-  MODIFY `id_penginapan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_penginapan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `penjualan`
 --
 ALTER TABLE `penjualan`
-  MODIFY `id_jual` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_jual` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `piutang`
@@ -1147,13 +1347,13 @@ ALTER TABLE `profil_perusahaan`
 -- AUTO_INCREMENT for table `retur_pembelian`
 --
 ALTER TABLE `retur_pembelian`
-  MODIFY `id_retur_pembelian` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_retur_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `retur_penjualan`
 --
 ALTER TABLE `retur_penjualan`
-  MODIFY `id_retur_penjualan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_retur_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `satuan`
@@ -1171,13 +1371,13 @@ ALTER TABLE `servis`
 -- AUTO_INCREMENT for table `stok`
 --
 ALTER TABLE `stok`
-  MODIFY `id_stok` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_stok` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `stok_opname`
 --
 ALTER TABLE `stok_opname`
-  MODIFY `id_stok_opname` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_stok_opname` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `supplier`
@@ -1195,7 +1395,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user_log`
 --
 ALTER TABLE `user_log`
-  MODIFY `id_log` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Constraints for dumped tables
@@ -1215,6 +1415,15 @@ ALTER TABLE `barang`
 ALTER TABLE `detil_pembelian`
   ADD CONSTRAINT `FK_BARANG_DETIL_PEMBELIAN` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`),
   ADD CONSTRAINT `FK_PEMBELIAN_DETIL` FOREIGN KEY (`id_beli`) REFERENCES `pembelian` (`id_beli`);
+
+--
+-- Constraints for table `detil_pemesanan`
+--
+ALTER TABLE `detil_pemesanan`
+  ADD CONSTRAINT `detil_pemesanan_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `detil_pemesanan_ibfk_2` FOREIGN KEY (`id_pemesanan`) REFERENCES `pemesanan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `detil_pemesanan_ibfk_3` FOREIGN KEY (`id_satuan`) REFERENCES `satuan` (`id_satuan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `detil_pemesanan_ibfk_4` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `detil_penginapan`
@@ -1251,6 +1460,12 @@ ALTER TABLE `komisi`
   ADD CONSTRAINT `komisi_ibfk_2` FOREIGN KEY (`id_detil_jual`) REFERENCES `detil_penjualan` (`id_detil_jual`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `pemesanan`
+--
+ALTER TABLE `pemesanan`
+  ADD CONSTRAINT `pemesanan_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE;
+
+--
 -- Constraints for table `penginapan`
 --
 ALTER TABLE `penginapan`
@@ -1275,6 +1490,12 @@ ALTER TABLE `retur_penjualan`
 --
 ALTER TABLE `stok`
   ADD CONSTRAINT `stok_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `user_log`
+--
+ALTER TABLE `user_log`
+  ADD CONSTRAINT `user_log_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
